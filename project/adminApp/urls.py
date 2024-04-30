@@ -11,5 +11,6 @@ urlpatterns = [
     path("editPW",views.change_password,name="editPW"),
     path("approveuser",views.approve_users,name='approve'),
     path("deluser",views.delete_users,name="delete"),
-    path("viewEquip",views.ViewEquip,name="viewequip")
+    path("viewEquip",views.ViewEquip,name="viewequip"),
+    path("report",views.report,name="report")
 ]
