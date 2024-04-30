@@ -1,0 +1,45 @@
+<h2>Book Equipment</h2>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li {% if message.tags == 'error' %} class="error" {% else %} class="success" {% endif %}>
+          {{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+<form method="post">
+  {% csrf_token %}
+
+  <h3>Select Equipment</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Device Name</th>
+        <th>Serial Number</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for equipment in equipments %}
+      <tr>
+        <td>{{ equipment.deviceName }}</td>
+        <td>{{ equipment.serialNum }}</td>
+        <td>
+          <input type="radio" name="selected_equipment" id="equipment_{{ equipment.pk }}" value="{{ equipment.pk }}">
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <label for="reserved_from">Reservation Start Date:</label>
+  <input type="date" id="reserved_from" name="reserved_from" required>
+
+  <label for="reserved_to">Reservation End Date:</label>
+  <input type="date" id="reserved_to" name="reserved_to" required>
+
+  <button type="submit" class="btn btn-primary">Book</button>
+</form>

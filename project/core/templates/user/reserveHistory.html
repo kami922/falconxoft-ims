@@ -1,0 +1,20 @@
+<h2>Your Current Reservations</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Equipment Name</th>
+      <th>Reserved From</th>
+      <th>Reserved To</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for reservation in reservations %}
+    <tr>
+      <td>{{ reservation.equipmentId.deviceName }}</td>
+      <td>{{ reservation.reserved_from }}</td>
+      <td>{{ reservation.reserved_to }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

@@ -1,0 +1,23 @@
+<h1>All Equipment</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Device Name</th>
+      <th>Device Type</th>
+      <th>Serial Number</th>
+      <th>CPU</th>
+      <th>GPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for equipment in equipments %}
+    <tr>
+      <td>{{ equipment.deviceName }}</td>
+      <td>{{ equipment.deviceType }}</td>
+      <td>{{ equipment.serialNum }}</td>
+      <td>{{ equipment.cpu }}</td>
+      <td>{{ equipment.gpu }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
