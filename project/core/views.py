@@ -6,9 +6,10 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import Equipment,Reservation
 from django.contrib import messages
+from django.http import HttpResponse
 
 # Create your views here.
-@login_required(login_url='login')
+@login_required(login_url='Userlogin')
 def home(request):
     return render(request,"user/home.html")
 
@@ -36,9 +37,13 @@ def login(request):
             print(user)
             if user is not None:
                 auth.login(request,user)
-                return redirect("home")
+            return redirect("home")
     context = {'logF':form}
-    return render(request,"user/login.html",context)    
+    return render(request,"user/login.html",context)   
+
+def logout_view(request):
+    logout(request)
+    return HttpResponse("logout") 
 
 def register(request):
     form = UserForm()
@@ -48,7 +53,7 @@ def register(request):
             user = form.save(commit=False)
             user.is_active = False
             user.save()
-            return redirect("login")
+            return redirect("Userlogin")
     context = {"regForm":form}
     return render(request,"user/signUp.html",context=context)
 

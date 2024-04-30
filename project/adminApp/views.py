@@ -8,20 +8,23 @@ from django.contrib.auth import login,logout,authenticate
 from django.contrib.auth.models import User
 from django.contrib import messages
 from core.models import Equipment,Reservation
-
+from django.http import HttpResponse
 
 #admin app views
 
 # Create your views here.
-@login_required(login_url='login')
+@login_required(login_url='adlogin')
 def home(request):
     return render(request,"adminApp/home.html")
 
+@login_required(login_url='adlogin')
 def ApproveUser(request):
     unApprovedUser = User.objects.filter(is_active = False)
     context = {"user":unApprovedUser}
     return render(request,"adminApp/approveUser.html",context)
 
+
+@login_required(login_url='adlogin')
 def CreateEquipment(request):
     form = EquipmentForm()
     if request.method == "POST":
@@ -34,6 +37,9 @@ def CreateEquipment(request):
     context = {"eForm":form}
     return render(request,"adminApp/bookEquip.html",context)
 
+
+
+@login_required(login_url='adlogin')
 def report(request):
     reservations = Reservation.objects.all()
     report_data = []
@@ -44,10 +50,10 @@ def report(request):
             'reserved_from':reservation.reserved_from,
             'reserved_to':reservation.reserved_to,
         })
-    context = {'report_data'}
+    context = {'report_data':report_data}
     return render(request,'adminApp/report.html',context)
 
-def login(request):
+def login_view(request):
     form = LoginForm()
     if request.method == "POST":
         form = LoginForm(request,data = request.POST)
@@ -59,12 +65,16 @@ def login(request):
             print(user)
             if user is not None:
                 auth.login(request,user)
-                return redirect("home")
+                return redirect("home2")
     context = {'logF':form}
     return render(request,"adminApp/login.html",context)    
 
+def logout_view(request):
+    logout(request)
+    return HttpResponse("logout")
 
-#write url for this  
+
+@login_required(login_url="adlogin")
 def delete_users(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')
@@ -75,6 +85,14 @@ def delete_users(request):
     users = User.objects.all().order_by('username')  
     context = {'users': users}
     return render(request, 'adminApp/deleteUser.html', context)
+
+@login_required(login_url="adlogin")
+def cancelReservation(request):
+    reservations = Reservation.objects.all()
+    context = {"reservations":reservations}
+    return render(request,'adminApp/delReservation.html',context)
+
+
 
 def ViewEquip(request):
     equipments = Equipment.objects.all()
@@ -99,20 +117,20 @@ def register(request):
     context = {"regForm":form}
     return render(request,"adminApp/signUp.html",context=context)
 
-@login_required(login_url="login")
+@login_required(login_url="adlogin")
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('adlogin')
     else:
         form = PasswordChangeForm(request.user)
 
     context = {'form': form}
     return render(request, 'adminApp/change_password.html', context)
 
-@login_required(login_url="login")
+@login_required(login_url="adlogin")
 def approve_users(request):
     if request.method == 'POST':
         user_id = request.POST.get('user_id')

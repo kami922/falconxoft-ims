@@ -13,8 +13,8 @@ class Equipment(models.Model):
     deviceName = models.CharField(max_length=50)
     deviceType = models.CharField(max_length=25)
     serialNum = models.CharField(max_length=30,unique=True)
-    cpu = models.CharField(max_length=30)
-    gpu = models.CharField(max_length=30)
+    cpu = models.CharField(max_length=30,blank=True,null=True)
+    gpu = models.CharField(max_length=30,blank=True,null=True)
     assigned_to = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     
     def __str__(self) -> str:

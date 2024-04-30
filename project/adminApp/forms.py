@@ -20,5 +20,12 @@ class LoginForm(AuthenticationForm):
 class EquipmentForm(forms.ModelForm):
     class Meta:
         model = Equipment
-        # fields = "__all__"
-        exclude = ("assigned_to",)
+        exclude = ('assigned_to',)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['cpu'].required = False
+        self.fields['gpu'].required = False
+        # Optional: Set placeholder text for clarity
+        self.fields['cpu'].widget.attrs['placeholder'] = 'Enter CPU details (Optional)'
+        self.fields['gpu'].widget.attrs['placeholder'] = 'Enter GPU details (Optional)'

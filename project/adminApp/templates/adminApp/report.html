@@ -10,10 +10,9 @@
     <tbody>
       {% for item in report_data %}
       <tr>
-        <td>{{ item['user'] }}</td>
-        <td>{{ item['equipment'] }}</td>
-        <td>{{ item['reserved_from'] }}</td>
-        <td>{{ item['reserved_to'] }}</td>
+        <td>{{ item.user }}</td>  <td>{{ item.equipment }}</td>
+        <td>{{ item.reserved_from }}</td>
+        <td>{{ item.reserved_to }}</td>
       </tr>
       {% endfor %}
     </tbody>
